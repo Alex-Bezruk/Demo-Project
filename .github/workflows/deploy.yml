@@ -9,6 +9,7 @@ jobs:
   deploy:
     runs-on: self-hosted
 
+    steps:
     - name: Deploy to Server
       uses: appleboy/ssh-action@master
       with:
