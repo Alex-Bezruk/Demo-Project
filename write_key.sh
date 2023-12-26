@@ -12,17 +12,17 @@ fi
 # Step 2: Decode base64 value
 decoded_value=$(echo "$aws_ssm_key_value" | base64 -d)
 
+[ -e key.pem ] && rm key.pem
 # Step 3: Write decoded value to key.pem file
 echo "$decoded_value" > key.pem
 
 echo "Decoded value has been written to key.pem."
 
-# Step 4: Fetch app_instance_host and write to DEPLOY_HOST environment variable
+
 host_parameter_name="/github-action-runners/gh-runner/runners/app_instance_host"
 deploy_host=$(aws ssm get-parameter --name "$host_parameter_name" --query "Parameter.Value" --output text)
 export DEPLOY_HOST="$deploy_host"
 
-# Step 5: Fetch app_instance_user and write to DEPLOY_USER environment variable
 user_parameter_name="/github-action-runners/gh-runner/runners/app_instance_user"
 deploy_user=$(aws ssm get-parameter --name "$user_parameter_name" --query "Parameter.Value" --output text)
 export DEPLOY_USERNAME="$deploy_user"

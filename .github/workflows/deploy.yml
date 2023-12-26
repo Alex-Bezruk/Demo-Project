@@ -13,11 +13,13 @@ jobs:
     - name: Pull Repository
       uses: actions/checkout@v2
 
-    - name: Execute setup_environment.sh
+    - name: Setup Environment
       run: |
-        chmod +x setup_environment.sh
-        source setup_environment.sh
+        chmod +x write_key.sh
+        ./write_key.sh
         chmod +x key.pem
+        chmod +x export_variables.sh
+        export $(./export_variables.sh)
 
     - name: Deploy to Server
       uses: appleboy/ssh-action@master
