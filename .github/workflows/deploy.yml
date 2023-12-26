@@ -16,7 +16,7 @@ jobs:
     - name: Execute setup_environment.sh
       run: |
         chmod +x setup_environment.sh
-        ./setup_environment.sh
+        . ./setup_environment.sh
         chmod +x key.pem
 
     - name: Deploy to Server
