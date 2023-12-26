@@ -17,7 +17,7 @@ jobs:
       run: |
         chmod +x write_key.sh
         ./write_key.sh
-        chmod +x key.pem
+        chmod 600 key.pem
         chmod +x export_variables.sh
         export $(./export_variables.sh)
 
