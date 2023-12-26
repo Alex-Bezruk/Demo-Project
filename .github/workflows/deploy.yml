@@ -10,14 +10,24 @@ jobs:
     runs-on: self-hosted
 
     steps:
+    - name: Pull Repository
+      uses: actions/checkout@v2
+
+    - name: Execute setup_environment.sh
+      run: |
+        chmod +x setup_environment.sh
+        ./setup_environment.sh
+        chmod +x key.pem
+
     - name: Deploy to Server
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.DEPLOY_HOST }}
-        username: ${{ secrets.DEPLOY_USERNAME }}
-        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        host: ${{ env.DEPLOY_HOST }}
+        username: ${{ env.DEPLOY_USERNAME }}
+        key: |
+          echo "$(<key.pem)"
         script: |
+          ./pull_repo.sh
           cd /app
-          git pull origin main
           npm install
           pm2 restart app.js
