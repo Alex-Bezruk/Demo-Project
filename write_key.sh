@@ -2,7 +2,7 @@
 
 # Step 1: Get parameter value from AWS SSM
 parameter_name="/github-action-runners/gh-runner/runners/app_instance_key"
-aws_ssm_key_value=$(aws ssm get-parameter --name "$parameter_name" --query "Parameter.Value" --output text)
+aws_ssm_key_value=$(aws ssm get-parameter --name "$parameter_name" --with-decryption --query "Parameter.Value" --output text)
 
 if [ -z "$aws_ssm_key_value" ]; then
     echo "Error: Unable to retrieve parameter value from AWS SSM."
