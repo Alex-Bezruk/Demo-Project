@@ -31,11 +31,13 @@ jobs:
 
         # Deploy to server using SSH
         ssh -o StrictHostKeyChecking=no -i key.pem "$DEPLOY_USERNAME@$DEPLOY_HOST" "
-          # Change to the app directory
-          cd /app
-
+          
           # Pull the repository
+          chmod +x pull_repo.sh
           ./pull_repo.sh
+
+          # Change to the app directory
+          cd app
 
           # Install npm dependencies
           npm install
