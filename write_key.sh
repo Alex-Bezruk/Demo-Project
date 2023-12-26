@@ -11,6 +11,7 @@ fi
 
 [ -e key.pem ] && rm key.pem
 # Step 3: Write decoded value to key.pem file
+echo "$aws_ssm_key_value"
 echo "$aws_ssm_key_value" > key.pem
 
 echo "Value has been written to key.pem."
