@@ -9,11 +9,8 @@ if [ -z "$aws_ssm_key_value" ]; then
     exit 1
 fi
 
-# Step 2: Decode base64 value
-decoded_value=$(echo "$aws_ssm_key_value" | base64 -d)
-
 [ -e key.pem ] && rm key.pem
 # Step 3: Write decoded value to key.pem file
-echo "$decoded_value" > key.pem
+echo "$aws_ssm_key_value" > key.pem
 
-echo "Decoded value has been written to key.pem."
+echo "Value has been written to key.pem."
