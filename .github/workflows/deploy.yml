@@ -19,8 +19,6 @@ jobs:
         ./write_key.sh
         chmod 600 key.pem
         openssl rsa -in key.pem -check
-        chmod +x export_variables.sh
-        export $(./export_variables.sh)
 
     - name: Deploy to Server
       run: |
