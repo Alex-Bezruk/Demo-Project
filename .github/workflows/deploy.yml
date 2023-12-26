@@ -32,7 +32,7 @@ jobs:
         PRIVATE_KEY="$(<key.pem)"
 
         # Deploy to server using SSH
-        ssh -o StrictHostKeyChecking=no -i key.pem "$DEPLOY_USERNAME@$DEPLOY_HOST" << EOF
+        ssh -o StrictHostKeyChecking=no -i key.pem "$DEPLOY_USERNAME@$DEPLOY_HOST" "
           # Change to the app directory
           cd /app
 
@@ -44,4 +44,4 @@ jobs:
 
           # Restart the Node.js app using pm2
           pm2 restart app.js
-EOF
+        "
