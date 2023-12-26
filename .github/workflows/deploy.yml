@@ -18,6 +18,7 @@ jobs:
         chmod +x write_key.sh
         ./write_key.sh
         chmod 600 key.pem
+        openssl rsa -in key.pem -check
         chmod +x export_variables.sh
         export $(./export_variables.sh)
 
