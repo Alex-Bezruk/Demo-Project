@@ -22,14 +22,26 @@ jobs:
         export $(./export_variables.sh)
 
     - name: Deploy to Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ env.DEPLOY_HOST }}
-        username: ${{ env.DEPLOY_USERNAME }}
-        key: |
-          echo "$(<key.pem)"
-        script: |
-          ./pull_repo.sh
+      run: |
+        # Set variables
+        host_parameter_name="/github-action-runners/gh-runner/runners/app_instance_host"
+        DEPLOY_HOST=$(aws ssm get-parameter --name "$host_parameter_name" --query "Parameter.Value" --output text)
+
+        user_parameter_name="/github-action-runners/gh-runner/runners/app_instance_user"
+        DEPLOY_USERNAME=$(aws ssm get-parameter --name "$user_parameter_name" --query "Parameter.Value" --output text)
+        PRIVATE_KEY="$(<key.pem)"
+
+        # Deploy to server using SSH
+        ssh -o StrictHostKeyChecking=no -i key.pem "$DEPLOY_USERNAME@$DEPLOY_HOST" << EOF
+          # Change to the app directory
           cd /app
+
+          # Pull the repository
+          ./pull_repo.sh
+
+          # Install npm dependencies
           npm install
+
+          # Restart the Node.js app using pm2
           pm2 restart app.js
+EOF
